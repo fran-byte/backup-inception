@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Bonus: WEB ESTATICA</title>
+  <style>
+    body {
+      background-color: #121212;
+      color: #a8d5ba;
+      font-family: 'Courier New', monospace;
+      padding: 2rem;
+      line-height: 1.5;
+      text-align: center;
+    }
+    h1 {
+      margin-bottom: 1rem;
+      color: #c0e0c9;
+    }
+    h2 {
+      margin: 1.5rem 0 0.5rem 0;
+      color: #c0e0c9;
+    }
+    .box {
+      background-color: #1e2a1f;
+      color: #d0f0d8;
+      border-radius: 6px;
+      padding: 1rem;
+      margin: 1rem auto;
+      max-width: 500px;
+      text-align: left;
+    }
+    ul, ol {
+      margin-left: 1rem;
+      padding-left: 0.5rem;
+    }
+    li {
+      margin-bottom: 0.3rem;
+    }
+    img.logo {
+      max-width: 200px;
+      margin: 0.5rem auto 1rem auto;
+      display: block;
+    }
+    footer {
+      margin-top: 2rem;
+      font-size: 0.85rem;
+      opacity: 0.7;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Bonus Inception</h1>
+  <img src="logo2.png" alt="Logo" class="logo">
+  <p>Web estática en Docker para el proyecto Inception</p>
+
+  <div class="box">
+    <h2>Características</h2>
+    <ul>
+      <li>Contenedor con Nginx</li>
+      <li>Contenido estático</li>
+      <li>Red Docker privada</li>
+      <li>Solo lectura</li>
+    </ul>
+  </div>
+
+  <div class="box">
+    <h2>Tecnologías</h2>
+    <ul>
+      <li>Docker / Docker Compose</li>
+      <li>Nginx</li>
+      <li>HTML/CSS</li>
+    </ul>
+  </div>
+
+  <div class="box">
+    <h2>Despliegue</h2>
+    <ol>
+      <li>Build imagen</li>
+      <li>Configurar volúmenes</li>
+      <li>Levantar con Compose</li>
+      <li>Activar proxy</li>
+      <li>Probar servicio</li>
+    </ol>
+  </div>
+
+  <img src="logo.png" alt="Logo1" class="logo">
+
+  <footer>frromero | Bonus Inception – 42 Madrid</footer>
+</body>
+</html>
