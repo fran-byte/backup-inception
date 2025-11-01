@@ -27,15 +27,10 @@ services:
     restart: always
     depends_on:
       - mariadb
+    env_file:
+      - .env
     environment:
       WORDPRESS_DB_HOST: mariadb:3306
-      WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME}
-      WORDPRESS_DB_USER: ${WORDPRESS_DB_USER}
-      DOMAIN_NAME: ${DOMAIN_NAME}
-      WORDPRESS_ADMIN_USER: ${WORDPRESS_ADMIN_USER}
-      WORDPRESS_ADMIN_EMAIL: ${WORDPRESS_ADMIN_EMAIL}
-      WORDPRESS_REGULAR_USER: ${WORDPRESS_REGULAR_USER}
-      WORDPRESS_REGULAR_EMAIL: ${WORDPRESS_REGULAR_EMAIL}
     secrets:
       - mariadb_user_password
       - wp_manager_password
@@ -67,14 +62,14 @@ services:
       - inception_net
 
   #-----------------------------
-  #    1 - Bonus: Static Web SERVICE 
+  #    1 - Bonus: Static Web SERVICE
   #-----------------------------
   static-web:
     build: ./requirements/bonus/static-web
     image: static-web
     container_name: static-web
     restart: always
-    profiles: ["bonus"]
+    profiles: [bonus]
     ports:
       - "8080:8080"
     volumes:
@@ -84,25 +79,13 @@ services:
       - inception_net
 
   #-----------------------------
-  #    2 - Bonus: redis SERVICE 
-  #-----------------------------
-  redis:
-    build: ./requirements/bonus/redis
-    image: redis
-    container_name: redis
-    restart: always
-    profiles: ["bonus"]
-    networks:
-      - inception_net 
-
-  #-----------------------------
-  #    3 - Bonus: adminer SERVICE 
+  #    2 - Bonus: adminer SERVICE
   #-----------------------------
   adminer:
     build: ./requirements/bonus/adminer
     container_name: adminer
     restart: always
-    profiles: ["bonus"]
+    profiles: [bonus]
     networks:
       - inception_net
 

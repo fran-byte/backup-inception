@@ -3,8 +3,7 @@ DC = docker compose
 DC_DIR = ./srcs
 VOLUMES_ROOT := $(PROJECT_ROOT)/data
 
-.PHONY: help setup-data mandatory-up bonus-up redis-config stop restart logs build rebuild purge purge-all
-
+.PHONY: help setup-data mandatory-up bonus-up  stop restart logs build rebuild purge purge-all 
 
 # CREATE DATA FOLDERS WITH CORRECT PERMISSIONS
 # =======================================================================
@@ -21,7 +20,6 @@ help:
 	@echo "Available commands:"
 	@echo "  make mandatory-up        # Start MANDATORY services only"
 	@echo "  make bonus-up            # Start BONUS only (if mandatory is running)"	
-	@echo "  make redis-config        # Add Redis configuration to WordPress"
 	@echo "  make stop                # Stop all services"
 	@echo "  make restart             # Restart all services"
 	@echo "  make logs                # View all service logs"
@@ -57,6 +55,7 @@ rebuild:
 
 # CLEANUP
 # =======================================================================
+
 purge:
 	@cd $(DC_DIR) && $(DC) --profile bonus down --remove-orphans
 	@docker system prune -a -f
@@ -68,15 +67,4 @@ purge-all: purge
 	@docker volume prune -f
 	@docker builder prune -af
 	@rm -rf data/db/* data/wp/*
-
-# REDIS CONFIGURATION
-# =======================================================================
-redis-config:
-	@echo "⚙️  CONFIGURING REDIS WITH WP-CLI..."
-	@cd $(DC_DIR) && docker compose exec wordpress wp config set WP_REDIS_HOST redis --add=true --type=constant
-	@cd $(DC_DIR) && docker compose exec wordpress wp config set WP_REDIS_PORT 6379 --add=true --type=constant
-	@cd $(DC_DIR) && docker compose exec wordpress wp config set WP_REDIS_TIMEOUT 1 --add=true --type=constant
-	@cd $(DC_DIR) && docker compose exec wordpress wp config set WP_REDIS_READ_TIMEOUT 1 --add=true --type=constant
-	@echo "✅ Redis configuration added with WP-CLI"
-	@echo "🎯 Install the plugin from WordPress Admin"
 
