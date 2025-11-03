@@ -1,11 +1,9 @@
 <?php
 // WordPress User Initialization Script
-// Starting
 
 require_once('/var/www/html/wp-load.php');
 
-// Function: create_user_if_not_exists
-// Creates a user only if it does not exist
+// Function: create_user_if_not_exists, Creates a user only if it does not exist
 function create_user_if_not_exists($username, $email, $password, $role) {
     if (!username_exists($username) && !email_exists($email)) {
         $user_id = wp_create_user($username, $password, $email);
@@ -13,12 +11,7 @@ function create_user_if_not_exists($username, $email, $password, $role) {
             $user = new WP_User($user_id);
             $user->set_role($role);
             error_log("User '$username' created with role '$role'");
-        } else {
-            $error_msg = $user_id->get_error_message();
-            error_log("❌ Error creating user '$username': $error_msg");
         }
-    } else {
-        error_log("ℹ User '$username' already exists");
     }
 }
 

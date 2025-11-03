@@ -1,14 +1,12 @@
-FROM debian:bullseye-20231030
+FROM alpine:3.21
 
-ENV DEBIAN_FRONTEND=noninteractive
+ENV ADMINER_VERSION=5.4.1
 
-RUN apt update && apt install -y \
-    adminer \
-    php \
-    php-mysql \
-    && apt clean \
-    && rm -rf /var/lib/apt/lists/*
+RUN apk add --no-cache wget ca-certificates php php-session php-mysqli
+RUN wget https://github.com/vrana/adminer/releases/download/v$ADMINER_VERSION/adminer-$ADMINER_VERSION.php -O /srv/index.php
+
+WORKDIR /srv
 
 EXPOSE 8090
 
-CMD ["php", "-S", "0.0.0.0:8090", "-t", "/usr/share/adminer"]
+CMD ["php", "-S", "0.0.0.0:8090", "-t", "/srv"]

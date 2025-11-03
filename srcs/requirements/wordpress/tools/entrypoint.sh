@@ -46,7 +46,14 @@ if ! wp core is-installed --allow-root --path=/var/www/html 2>/dev/null; then
         --allow-root \
         --path=/var/www/html
 
+    # CONF PERMALINKS
+    wp rewrite structure '/%postname%/' --hard --allow-root --path=/var/www/html
+    wp rewrite flush --hard --allow-root --path=/var/www/html
+
     [ -f /usr/local/bin/init-users.php ] && php /usr/local/bin/init-users.php || true
 fi
+
+wp rewrite structure '/%postname%/' --hard --allow-root --path=/var/www/html
+wp rewrite flush --hard --allow-root --path=/var/www/html
 
 exec php-fpm83 -F

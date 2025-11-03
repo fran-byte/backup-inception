@@ -1,7 +1,5 @@
 services:
-  # -----------------------------
-  #      MariaDB Database SERVICE
-  # -----------------------------
+  # MANDATORY SERVICES
   mariadb:
     build: ./requirements/mariadb
     image: mariadb
@@ -17,9 +15,6 @@ services:
     networks:
       - inception_net
 
-  # -----------------------------
-  #             WordPress SERVICE
-  # -----------------------------
   wordpress:
     build: ./requirements/wordpress
     image: wordpress
@@ -27,15 +22,10 @@ services:
     restart: always
     depends_on:
       - mariadb
+    env_file:
+      - .env
     environment:
       WORDPRESS_DB_HOST: mariadb:3306
-      WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME}
-      WORDPRESS_DB_USER: ${WORDPRESS_DB_USER}
-      DOMAIN_NAME: ${DOMAIN_NAME}
-      WORDPRESS_ADMIN_USER: ${WORDPRESS_ADMIN_USER}
-      WORDPRESS_ADMIN_EMAIL: ${WORDPRESS_ADMIN_EMAIL}
-      WORDPRESS_REGULAR_USER: ${WORDPRESS_REGULAR_USER}
-      WORDPRESS_REGULAR_EMAIL: ${WORDPRESS_REGULAR_EMAIL}
     secrets:
       - mariadb_user_password
       - wp_manager_password
@@ -45,9 +35,6 @@ services:
     networks:
       - inception_net
 
-  # -----------------------------
-  #      Nginx Web Server SERVICE
-  # -----------------------------
   nginx:
     build: ./requirements/nginx
     image: nginx
@@ -55,74 +42,42 @@ services:
     restart: always
     depends_on:
       - wordpress
+
     ports:
       - "443:443"
     volumes:
       - ${VOLUMES_ROOT}/wp:/var/www/html
-      - ../secrets/certs/frromero.42.fr.crt:/etc/ssl/certs/frromero.42.fr.crt:ro
-      - ../secrets/certs/frromero.42.fr.key:/etc/ssl/private/frromero.42.fr.key:ro
+      - ${SECRETS_ROOT}/certs/frromero.42.fr.crt:/etc/ssl/certs/frromero.42.fr.crt:ro
+      - ${SECRETS_ROOT}/certs/frromero.42.fr.key:/etc/ssl/private/frromero.42.fr.key:ro
       - ./requirements/nginx/conf/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./requirements/nginx/conf/default.conf:/etc/nginx/conf.d/default.conf:ro
     networks:
       - inception_net
 
-  #-----------------------------
-  #    1 - Bonus: Static Web SERVICE 
-  #-----------------------------
-  static-web:
-    build: ./requirements/bonus/static-web
-    image: static-web
-    container_name: static-web
+  # BONUS SERVICES
+  web:
+    build: ./requirements/bonus/web
+    container_name: web
     restart: always
-    profiles: ["bonus"]
-    ports:
-      - "8080:8080"
-    volumes:
-      - ../secrets/certs/frromero.42.fr.crt:/etc/ssl/certs/frromero.42.fr.crt:ro
-      - ../secrets/certs/frromero.42.fr.key:/etc/ssl/private/frromero.42.fr.key:ro
+    profiles: [bonus]
     networks:
       - inception_net
-
-  #-----------------------------
-  #    2 - Bonus: redis SERVICE 
-  #-----------------------------
-  redis:
-    build: ./requirements/bonus/redis
-    image: redis
-    container_name: redis
-    restart: always
-    profiles: ["bonus"]
-    networks:
-      - inception_net 
-
-  #-----------------------------
-  #    3 - Bonus: adminer SERVICE 
-  #-----------------------------
   adminer:
     build: ./requirements/bonus/adminer
     container_name: adminer
     restart: always
-    profiles: ["bonus"]
+    profiles: [bonus]
     networks:
       - inception_net
 
-# -----------------------------
-# Docker Volumes
-# -----------------------------
 volumes:
   db:
   wp:
 
-# -----------------------------
-# Docker Networks
-# -----------------------------
 networks:
   inception_net:
     driver: bridge
 
-# -----------------------------
-# Docker Secrets
-# -----------------------------
 secrets:
   mariadb_root_password:
     file: ${PROJECT_ROOT}/secrets/mariadb_root_password.txt

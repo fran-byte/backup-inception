@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Bonus: Static WEB</title>
+  <style>
+    body {
+      background-color: #121212;
+      color: #a8d5ba;
+      font-family: 'Courier New', monospace;
+      padding: 2rem;
+      line-height: 1.5;
+      text-align: center;
+    }
+    h1 {
+      margin-bottom: 1rem;
+      color: #c0e0c9;
+    }
+    h2 {
+      margin: 1.5rem 0 0.5rem 0;
+      color: #c0e0c9;
+    }
+    .box {
+      background-color: #1e2a1f;
+      color: #d0f0d8;
+      border-radius: 6px;
+      padding: 1rem;
+      margin: 1rem auto;
+      max-width: 650px;
+      text-align: left;
+    }
+    ul, ol {
+      margin-left: 1rem;
+      padding-left: 0.5rem;
+      list-style: none;
+    }
+    li {
+      margin-bottom: 0.3rem;
+    }   
+    footer {
+      margin-top: 2rem;
+      font-size: 0.85rem;
+      opacity: 0.7;
+    }
+    .checkmark {
+      color: #4CAF50;
+      margin-right: 0.5rem;
+    }
+    .section-title {
+      background-color: #2d4a35;
+      color: #d0f0d8;
+      border-radius: 6px;
+      padding: 1rem;
+      margin: 1rem auto;
+      max-width: 650px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Bonus Inception</h1>
+  <p>Web estática en Docker</p>
+  <br>
+
+  <div class="section-title">ESTRUCTURA Y CONFIGURACIÓN</div>
+  <div class="box">
+    <ul>
+      <li><span class="checkmark">✅</span> Contenedores separados (nginx, wordpress, mariadb)</li>
+      <li><span class="checkmark">✅</span> Solo NGINX expuesto en puerto 443</li>
+      <li><span class="checkmark">✅</span> Red Docker personalizada srcs_inception_net</li>
+      <li><span class="checkmark">✅</span> HTTPS/TLS</li>
+      <li><span class="checkmark">✅</span> Makefile en raíz del proyecto</li>
+      <li><span class="checkmark">✅</span> Estructura de carpetas (srcs/, data/, secrets/)</li>
+    </ul>
+  </div>
+
+  <div class="section-title">SEGURIDAD</div>
+  <div class="box">
+    <ul>
+      <li><span class="checkmark">✅</span> No hay contraseñas en Dockerfiles</li>
+      <li><span class="checkmark">✅</span> Uso de variables de entorno (.env)</li>
+      <li><span class="checkmark">✅</span> Docker secrets para información sensible</li>
+      <li><span class="checkmark">✅</span> No se usa latest tag</li>
+      <li><span class="checkmark">✅</span> No se usa network: host o --link</li>
+      <li><span class="checkmark">✅</span> Política de reinicio: always configurada</li>
+    </ul>
+  </div>
+
+  <div class="section-title">PERSISTENCIA Y VOLÚMENES</div>
+  <div class="box">
+    <ul>
+      <li><span class="checkmark">✅</span> Bind mounts en /home/frromero/data/ </li>
+      <li><span class="checkmark">✅</span> Volumen para base de datos (data/db/)</li>
+      <li><span class="checkmark">✅</span> Volumen para archivos WordPress (data/wp/)</li>
+    </ul>
+  </div>
+  <footer>frromero | Bonus Inception – 42 Madrid</footer>
+</body>
+</html>
